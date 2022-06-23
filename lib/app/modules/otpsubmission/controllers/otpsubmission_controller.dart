@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class OtpsubmissionController extends GetxController {
 
@@ -10,18 +12,21 @@ class OtpsubmissionController extends GetxController {
   RxString timerText = "".obs;
   RxBool isResendActive = true.obs;
   RxString phoneNumber = "".obs;
+  RxString otp = "".obs;
 
 
   @override
-  void onInit() {
+   onInit()  {
     super.onInit();
     startTimer();
     phoneNumber.value = Get.arguments[0];
+
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    otp.value = await getOtp(phoneNumber.value);
   }
 
   @override
@@ -33,7 +38,7 @@ class OtpsubmissionController extends GetxController {
   }
 
   startTimer(){
-    timeLeft.value = 20;
+    timeLeft.value = 80;
     isResendActive.value = false;
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       timeLeft.value--;
@@ -50,6 +55,18 @@ class OtpsubmissionController extends GetxController {
       }
     });
 
+  }
+
+  Future<String> getOtp(val) async {
+      final response = await http
+          .get(Uri.parse('https://mocki.io/v1/9a3d57b9-fa3f-402e-99f9-982134108d18'));
+
+      if (response.statusCode == 200) {
+        final result = (jsonDecode(response.body));
+        return result['otp_code'].toString();
+      } else {
+        throw Exception('Failed to load album');
+      }
   }
 
 }

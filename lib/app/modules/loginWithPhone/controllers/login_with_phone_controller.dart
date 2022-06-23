@@ -24,7 +24,7 @@ class LoginWithPhoneController extends GetxController {
     super.onClose();
   }
 
-  sendOtp(){
+  gotoOTPpage(){
     Get.toNamed(Routes.OTPSUBMISSION, arguments: [phoneNumber.value]);
   }
 

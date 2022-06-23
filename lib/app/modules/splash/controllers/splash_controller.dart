@@ -15,8 +15,8 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     Timer(Duration(seconds: 1), () {
-      while(margin.value<=620)
-        margin.value+= 50;
+      while(margin.value<=600)
+        margin.value+= 40;
     });
 
     Timer(Duration(seconds: 3), () {

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:softcentotp/app/data/color.dart';
 
+import '../../../utils/snack_bar.dart';
 import '../controllers/otpsubmission_controller.dart';
 
 class OtpsubmissionView extends GetView<OtpsubmissionController> {
@@ -55,7 +56,7 @@ class OtpsubmissionView extends GetView<OtpsubmissionController> {
                         color: textColor,
                         fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
@@ -65,7 +66,7 @@ class OtpsubmissionView extends GetView<OtpsubmissionController> {
                         color: blackgrey,
                         fontWeight: FontWeight.w400),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   Text(
@@ -81,10 +82,12 @@ class OtpsubmissionView extends GetView<OtpsubmissionController> {
                     width: 300,
                     margin: EdgeInsets.only(top: 30),
                     child: PinCodeTextField(
+                      enablePinAutofill: true,
                       length: 5,
                       obscureText: false,
                       animationType: AnimationType.fade,
                       keyboardType: TextInputType.phone,
+                      hintCharacter: "*",
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
@@ -94,12 +97,15 @@ class OtpsubmissionView extends GetView<OtpsubmissionController> {
                         activeFillColor: textBackground,
                         inactiveColor: textBackground,
                         inactiveFillColor: textBackground,
+                        selectedFillColor: textBackground,
                       ),
                       animationDuration: Duration(milliseconds: 300),
                       backgroundColor: Colors.transparent,
                       enableActiveFill: true,
                       onCompleted: (v) {
-                        print("Completed");
+                        v == controller.otp.value?
+                        SnackBarWidget.showMessage(" OTP matched"):
+                        SnackBarWidget.showMessage(" OTP Mismatched");
                       },
                       onChanged: (value) {
                         print(value);
@@ -126,6 +132,8 @@ class OtpsubmissionView extends GetView<OtpsubmissionController> {
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
                             if(controller.isResendActive.isTrue){
+                              controller.getOtp(controller.phoneNumber.value);
+                              SnackBarWidget.showMessage("New OTP sent");
                               controller.startTimer();
                             }
                             }),

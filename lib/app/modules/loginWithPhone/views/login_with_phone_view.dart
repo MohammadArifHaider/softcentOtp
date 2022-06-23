@@ -43,7 +43,7 @@ class LoginWithPhoneView extends GetView<LoginWithPhoneController> {
                   //Header
                   Center(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 80),
                       child: Text(
                         headText,
                         style: TextStyle(
@@ -110,7 +110,7 @@ class LoginWithPhoneView extends GetView<LoginWithPhoneController> {
                               //controller: controller.emailController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: '01815378942',
+                                hintText: '1815378942',
                                 hintStyle: TextStyle(color: Colors.grey[400]),
                               ),
                               onChanged: (value){
@@ -192,7 +192,7 @@ class LoginWithPhoneView extends GetView<LoginWithPhoneController> {
                     onTap: () {
                       if(controller.phoneNumber.value.length == 10) {
                         if(controller.agree.isTrue) {
-                          controller.sendOtp();
+                          controller.gotoOTPpage();
                         }else{
                           SnackBarWidget.showMessage("Please accept terms and conditions");
                         }
